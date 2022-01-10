@@ -1,0 +1,3 @@
+<app-comment class="container" *ngFor="let comment of comments | async" [id]="comment.id" [content]="comment.content" [createdAt]="comment.createdAt" [commenter]="comment.commenter" [score]="comment.score">
+</app-comment>
+<app-add-comment [isReply]="false"></app-add-comment>

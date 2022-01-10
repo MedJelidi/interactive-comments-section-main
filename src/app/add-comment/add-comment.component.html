@@ -1,0 +1,5 @@
+<div class="input-container" [ngClass]="{ 'is-reply': isReply }">
+    <img [src]="imageSrc" alt="owner-picture" class="owner-picture" />
+    <textarea [placeholder]="isReply ? 'Add a reply...' : 'Add a comment...'" name="comment" id="comment" cols="60" rows="3"></textarea>
+    <button>{{ isReply ? "Reply" : "Send" }}</button>
+</div>

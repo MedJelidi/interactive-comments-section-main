@@ -1,0 +1,42 @@
+<div class="comment-container">
+    <div class="votes-container">
+        <div class="vote-elem sign">
+            <img src="../../assets/images/icon-plus.svg" alt="icon-plus" />
+        </div>
+        <div class="vote-elem">{{ score }}</div>
+        <div class="vote-elem sign">
+            <img src="../../assets/images/icon-minus.svg" alt="icon-minus" />
+        </div>
+    </div>
+    <div class="comment">
+        <div class="comment-header">
+            <img [src]="imageSrc" alt="avatar" class="avatar" />
+            <h4 class="username">{{ commenter?.username }}</h4>
+            <div *ngIf="isCurrentUser" class="you-container">you</div>
+            <h4 class="pub-date">{{ createdAt || "" | dateAgo }}</h4>
+        </div>
+        <p>
+            {{ content }}
+        </p>
+
+        <div class="buttons-container">
+            <div *ngIf="!isCurrentUser" class="button" (click)="onReply()">
+                <img src="../../assets/images/icon-reply.svg" alt="reply" />
+                <h4>Reply</h4>
+            </div>
+            <div *ngIf="isCurrentUser" class="button" id="delete-btn" (click)="onDelete()">
+                <img src="../../assets/images/icon-delete.svg" alt="delete" />
+                <h4>Delete</h4>
+            </div>
+            <div *ngIf="isCurrentUser" class="button">
+                <img src="../../assets/images/icon-edit.svg" alt="edit" />
+                <h4>Edit</h4>
+            </div>
+        </div>
+    </div>
+</div>
+<div #addContainer></div>
+<div class="replies-container" *ngIf="replies">
+    <div class="replies-pole"></div>
+    <app-comment *ngFor="let reply of replies | async" [id]="reply.id" [content]="reply.content" [createdAt]="reply.createdAt" [commenter]="reply.commenter" [score]="reply.score"></app-comment>
+</div>

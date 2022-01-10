@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors: Primary */
+    --moderate-blue: hsl(238, 40%, 52%);
+    --soft-red: hsl(358, 79%, 66%);
+    --light-grayish-blue: hsl(239, 57%, 85%);
+    --pale-red: hsl(357, 100%, 86%);
+    /* Colors: Neutral */
+    --dark-blue: hsl(212, 24%, 26%);
+    --grayish-blue: hsl(211, 10%, 45%);
+    --light-gray: hsl(223, 19%, 93%);
+    --very-light-gray: hsl(228, 33%, 97%);
+    --white: hsl(0, 0%, 100%);
+    /* Font Sizes */
+    --paragraph-font-size: 16px;
+    /* Font Families */
+    --main-font-family: "Rubik", sans-serif;
+    /* Font Weights */
+    --bold: 400;
+    --bolder: 500;
+    --boldest: 700;
+}
+
+body {
+    font-family: var(--main-font-family);
+    font-size: var(--paragraph-font-size);
+    background-color: var(--very-light-gray);
+    padding: 70px 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 477px;
+    position: relative;
+    margin: 0;
+}
+
+.modal {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+app-add-comment {
+    width: 100%;
+}
