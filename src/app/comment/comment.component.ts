@@ -2,8 +2,10 @@ import {
   Component,
   ComponentFactoryResolver,
   ComponentRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core'
@@ -26,14 +28,18 @@ export class CommentComponent implements OnInit {
   @Input() score: number | undefined
   @Input() commenter: Commenter | undefined
 
+  @Output() deleteEvent: EventEmitter<any> = new EventEmitter()
+
   imageSrc: string = ''
   replies: Observable<Comment[]> | undefined
   isCurrentUser: boolean | undefined
+  editMode: boolean
 
   addComponentExists: boolean
   @ViewChild('addContainer', { read: ViewContainerRef }) target:
     | ViewContainerRef
     | undefined
+  @ViewChild('modalContainer') modalContainer: Element | undefined
   private componentRef: ComponentRef<any> | undefined
 
   constructor(
@@ -42,6 +48,7 @@ export class CommentComponent implements OnInit {
     private userService: UserService,
   ) {
     this.addComponentExists = false
+    this.editMode = false
   }
 
   ngOnInit(): void {
@@ -60,10 +67,12 @@ export class CommentComponent implements OnInit {
     this.addComponentExists = !this.addComponentExists
   }
 
-  onDelete(): void {
-    const deleteModal = document.createElement('div')
-    deleteModal.classList.add('modal')
-    document.body.append(deleteModal)
+  onDelete(id: number): void {
+    this.deleteEvent.emit(id)
+  }
+
+  onEdit(): void {
+    this.editMode = !this.editMode
   }
 
   createAddComponent(): void {

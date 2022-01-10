@@ -38,15 +38,7 @@ body {
     justify-content: center;
     align-items: center;
     min-width: 477px;
-    position: relative;
     margin: 0;
-}
-
-.modal {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
 }
 
 app-add-comment {

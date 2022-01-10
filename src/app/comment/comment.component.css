@@ -163,6 +163,10 @@ app-comment:last-child .comment-container:last-child {
         right: 0;
         bottom: 15px;
     }
+    p,
+    .modal-button {
+        font-size: 18px;
+    }
 }
 
 @media screen and (max-width: 635px) {
