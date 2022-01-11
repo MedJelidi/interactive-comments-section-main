@@ -7,7 +7,7 @@ export class DateAgoPipe implements PipeTransform {
   transform(value: string, ...args: unknown[]): string {
     const now = new Date().getTime()
     const pubDate = new Date(value).getTime()
-    // console.log(pubDate)
+    console.log(pubDate)
     const dateAgo = now - pubDate
     const yearDiff = Math.floor(dateAgo / 3.154e10)
     const monthDiff = Math.floor(dateAgo / 2628336213.69853735)

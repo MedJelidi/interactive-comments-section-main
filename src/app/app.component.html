@@ -1,7 +1,7 @@
 <app-comment (deleteEvent)="onDelete($event)"
-             *ngFor="let comment of comments | async" [commenter]="comment.commenter"
+             *ngFor="let comment of comments; trackBy: trackById" [commenter]="comment.commenter"
              [content]="comment.content"
-             [createdAt]="comment.created_at"
+             [createdAt]="comment.createdAt"
              [id]="comment.id"
              [score]="comment.score"
              class="container">
@@ -9,7 +9,7 @@
 <app-add-comment (addedComment)="onAddComment($event)" [isReply]="false"></app-add-comment>
 <div #modalContainer class="modal">
   <div class="modal-container"><h3>Delete comment</h3>
-    <p>Are you sure you want to delete this comment? This will remove the comment and can't be undone 4</p>
+    <p>Are you sure you want to delete this comment? This will remove the comment and can't be undone</p>
     <div class="modal-buttons-container">
       <button class="modal-button cancel">No, cancel</button>
       <button class="modal-button confirm">Yes, delete</button>

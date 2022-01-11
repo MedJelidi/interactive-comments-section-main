@@ -9,12 +9,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core'
+import { Observable } from 'rxjs'
 import { AddCommentComponent } from '../add-comment/add-comment.component'
 import { Comment } from '../models/comment.model'
 import { Commenter } from '../models/commenter.model'
 import { CommentService } from '../services/comment.service'
 import { UserService } from '../services/user.service'
-import {Observable} from "rxjs/dist/types";
 
 @Component({
   selector: 'app-comment',

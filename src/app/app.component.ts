@@ -1,8 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {CommentService} from './services/comment.service'
 import {Comment} from './models/comment.model'
-import {combineLatestWith} from "rxjs/operators";
-import {Cons, Observable, OperatorFunction, Subject} from "rxjs/dist/types";
 
 @Component({
   selector: 'app-root',
@@ -11,38 +9,57 @@ import {Cons, Observable, OperatorFunction, Subject} from "rxjs/dist/types";
 })
 export class AppComponent implements OnInit {
   title = 'interactive-comments-section-main'
-  comments: OperatorFunction<unknown, Cons<unknown, readonly unknown[]>>
+  comments: Comment[] = []
 
   @ViewChild('modalContainer')
-  modalContainer: ElementRef = new ElementRef(null);
-
-  commentObs: Subject<Comment>
+  modalContainer: ElementRef = new ElementRef(null)
 
   constructor(private commentService: CommentService) {
-    this.commentObs = new Subject<Comment>()
-    this.comments = combineLatestWith(this.commentService.getParentComments(), this.commentObs)
   }
 
   ngOnInit(): void {
+     this.commentService.getParentComments().subscribe(comments => this.comments = comments)
   }
 
   onDelete(id: number): void {
-    const modal = this.modalContainer?.nativeElement
+    const modal = this.modalContainer.nativeElement
     modal.classList.add('shown')
     // don't exit it if clicked on container, but exit if clicked outside
     let inCont = false
+    let clickedButton = false
     const modalContainer = document.querySelector('.modal-container')
     modal.addEventListener('click', () => {
       if (!inCont) modal.classList.remove('shown')
       inCont = false
     })
     modalContainer?.addEventListener('click', () => {
-      inCont = true
-      modal.classList.add('shown')
+      if (!clickedButton) {
+        inCont = true
+        modal.classList.add('shown')
+      }
     })
+    const confirmButton = modalContainer?.querySelector('.confirm')
+    const cancelButton = modalContainer?.querySelector('.cancel')
+    const confirmDeletion = () => {
+      clickedButton = true
+      confirmButton?.removeEventListener('click', confirmDeletion)
+      this.commentService.deleteComment(id).subscribe(() => {
+        this.comments.splice(this.comments.findIndex((c) => c.id === id ), 1)
+      })
+    }
+    const cancelDeletion = () => {
+      clickedButton = true
+      cancelButton?.removeEventListener('click', cancelDeletion)
+    }
+    confirmButton?.addEventListener('click', confirmDeletion)
+    cancelButton?.addEventListener('click', cancelDeletion)
   }
 
   onAddComment(comment: Comment): void {
-    this.commentObs.next(comment)
+    this.comments.push(comment)
+  }
+
+  trackById(index: number, comment: Comment): number {
+    return comment.id;
   }
 }

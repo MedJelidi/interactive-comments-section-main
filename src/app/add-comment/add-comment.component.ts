@@ -28,10 +28,10 @@ export class AddCommentComponent implements OnInit {
 
   onAdd(): void {
     const content: string = this.commentForm?.value.content
-    const comment: Comment = {id: -1, content: content, commenter: this.userService.currentUser, parent_id: -1, score: 0, created_at: ''}
-    console.log(comment)
-    this.commentService.addComment(comment).subscribe(comment => {
-      this.addedComment.emit(comment)
+    const comment: Comment = {id: -1, content: content, commenter: this.userService.currentUser, parent_id: -1, score: 0, createdAt: ''}
+    this.commentService.addComment(comment).subscribe(newComment => {
+      console.log(newComment)
+      this.addedComment.emit(newComment)
     }, err => console.error(err))
   }
 }

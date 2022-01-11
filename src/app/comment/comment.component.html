@@ -46,5 +46,5 @@
   <div class="replies-pole"></div>
   <app-comment (deleteEvent)="onDelete($event)" *ngFor="let reply of replies | async" [commenter]="reply.commenter"
                [content]="reply.content"
-               [createdAt]="reply.created_at" [id]="reply.id" [score]="reply.score" style="width: 100%"></app-comment>
+               [createdAt]="reply.createdAt" [id]="reply.id" [score]="reply.score" style="width: 100%"></app-comment>
 </div>
