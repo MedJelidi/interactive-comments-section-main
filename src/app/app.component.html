@@ -4,6 +4,7 @@
              [createdAt]="comment.createdAt"
              [id]="comment.id"
              [score]="comment.score"
+             [replyDeleted]="replyDeleted"
              class="container">
 </app-comment>
 <app-add-comment (addedComment)="onAddComment($event)" [isReply]="false"></app-add-comment>

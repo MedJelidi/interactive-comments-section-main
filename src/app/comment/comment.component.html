@@ -30,7 +30,7 @@
         <img alt="reply" src="../../assets/images/icon-reply.svg"/>
         <h4>Reply</h4>
       </div>
-      <div (click)="onDelete(this.id || -1)" *ngIf="isCurrentUser" class="button" id="delete-btn">
+      <div (click)="onDeleteComment(this.id || -1)" *ngIf="isCurrentUser" class="button" id="delete-btn">
         <img alt="delete" src="../../assets/images/icon-delete.svg"/>
         <h4>Delete</h4>
       </div>
@@ -44,7 +44,7 @@
 <div #addContainer></div>
 <div *ngIf="replies" class="replies-container">
   <div class="replies-pole"></div>
-  <app-comment (deleteEvent)="onDelete($event)" *ngFor="let reply of replies | async" [commenter]="reply.commenter"
+  <app-comment (deleteEvent)="onDeleteReply($event)" *ngFor="let reply of replies" [commenter]="reply.commenter"
                [content]="reply.content"
                [createdAt]="reply.createdAt" [id]="reply.id" [score]="reply.score" style="width: 100%"></app-comment>
 </div>

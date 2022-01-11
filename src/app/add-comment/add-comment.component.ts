@@ -12,6 +12,7 @@ import {Comment} from "../models/comment.model"
 export class AddCommentComponent implements OnInit {
   imageSrc: string = ''
   @Input() isReply: boolean = false
+  @Input() parentID: number = -1
   @Output() addedComment: EventEmitter<Comment> = new EventEmitter()
   commentForm: FormGroup
   constructor(private userService: UserService, private formBuilder: FormBuilder, private commentService: CommentService) {
@@ -28,9 +29,8 @@ export class AddCommentComponent implements OnInit {
 
   onAdd(): void {
     const content: string = this.commentForm?.value.content
-    const comment: Comment = {id: -1, content: content, commenter: this.userService.currentUser, parent_id: -1, score: 0, createdAt: ''}
+    const comment: Comment = {id: -1, content: content, commenter: this.userService.currentUser, parentID: this.parentID, score: 0, createdAt: ''}
     this.commentService.addComment(comment).subscribe(newComment => {
-      console.log(newComment)
       this.addedComment.emit(newComment)
     }, err => console.error(err))
   }

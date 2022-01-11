@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core'
 import {CommentService} from './services/comment.service'
 import {Comment} from './models/comment.model'
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,8 @@ export class AppComponent implements OnInit {
   @ViewChild('modalContainer')
   modalContainer: ElementRef = new ElementRef(null)
 
+  replyDeleted = new BehaviorSubject<boolean>(false)
+
   constructor(private commentService: CommentService) {
   }
 
@@ -21,7 +24,7 @@ export class AppComponent implements OnInit {
      this.commentService.getParentComments().subscribe(comments => this.comments = comments)
   }
 
-  onDelete(id: number): void {
+  onDelete($event: any): void {
     const modal = this.modalContainer.nativeElement
     modal.classList.add('shown')
     // don't exit it if clicked on container, but exit if clicked outside
@@ -41,11 +44,18 @@ export class AppComponent implements OnInit {
     const confirmButton = modalContainer?.querySelector('.confirm')
     const cancelButton = modalContainer?.querySelector('.cancel')
     const confirmDeletion = () => {
+      console.log('eeee')
       clickedButton = true
       confirmButton?.removeEventListener('click', confirmDeletion)
-      this.commentService.deleteComment(id).subscribe(() => {
-        this.comments.splice(this.comments.findIndex((c) => c.id === id ), 1)
-      })
+      if (!$event.isReply) {
+        this.commentService.deleteComment($event.id).subscribe(() => {
+          this.comments.splice(this.comments.findIndex((c) => c.id === $event.id), 1)
+        })
+      } else {
+        this.commentService.deleteComment($event.id).subscribe(() => {
+          this.replyDeleted.next(true)
+        })
+      }
     }
     const cancelDeletion = () => {
       clickedButton = true

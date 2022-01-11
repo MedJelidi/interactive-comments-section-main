@@ -4,7 +4,7 @@ export interface Comment {
   id: number
   content: string
   createdAt: string
-  parent_id: number
+  parentID: number
   score: number
   commenter: Commenter
 }

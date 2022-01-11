@@ -9,12 +9,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core'
-import { Observable } from 'rxjs'
 import { AddCommentComponent } from '../add-comment/add-comment.component'
 import { Comment } from '../models/comment.model'
 import { Commenter } from '../models/commenter.model'
 import { CommentService } from '../services/comment.service'
 import { UserService } from '../services/user.service'
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-comment',
@@ -27,15 +27,16 @@ export class CommentComponent implements OnInit {
   @Input() createdAt: string | undefined
   @Input() score: number | undefined
   @Input() commenter: Commenter | undefined
+  @Input() replyDeleted = new BehaviorSubject<boolean>(false)
 
   @Output() deleteEvent: EventEmitter<any> = new EventEmitter()
 
   imageSrc: string = ''
-  replies: Observable<Comment[]> | undefined
+  replies: Comment[] = []
   isCurrentUser: boolean | undefined
-  editMode: boolean
+  editMode: boolean = false
+  addComponentExists: boolean = false
 
-  addComponentExists: boolean
   @ViewChild('addContainer', { read: ViewContainerRef }) target:
     | ViewContainerRef
     | undefined
@@ -47,13 +48,11 @@ export class CommentComponent implements OnInit {
     private commentService: CommentService,
     private userService: UserService,
   ) {
-    this.addComponentExists = false
-    this.editMode = false
   }
 
   ngOnInit(): void {
     this.imageSrc = `../../assets${this.commenter?.image.png.slice(1)}`
-    this.replies = this.commentService.getRepliesOfComment(this.id ?? 0)
+    this.commentService.getRepliesOfComment(this.id ?? 0).subscribe(replies => this.replies = replies)
     this.isCurrentUser =
       this.userService.currentUser.username === this.commenter?.username
   }
@@ -67,8 +66,15 @@ export class CommentComponent implements OnInit {
     this.addComponentExists = !this.addComponentExists
   }
 
-  onDelete(id: number): void {
-    this.deleteEvent.emit(id)
+  onDeleteComment(id: number): void {
+    this.deleteEvent.emit({id, isReply: false})
+  }
+
+  onDeleteReply($event: any): void {
+    this.deleteEvent.emit({id: $event.id, isReply: true})
+    this.replyDeleted.subscribe((deleted) => {
+      if (deleted) this.replies.splice(this.replies.findIndex((r) => r.id === $event.id), 1)
+    })
   }
 
   onEdit(): void {
@@ -81,5 +87,10 @@ export class CommentComponent implements OnInit {
     )
     this.componentRef = this.target?.createComponent(addCommentComponent)
     this.componentRef!.instance.isReply = true
+    this.componentRef!.instance.parentID = this.id
+    this.componentRef!.instance.addedComment.subscribe((reply: Comment) =>{
+      console.log(reply)
+      this.replies.push(reply)
+    })
   }
 }
