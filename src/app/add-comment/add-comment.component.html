@@ -1,5 +1,8 @@
-<div class="input-container" [ngClass]="{ 'is-reply': isReply }">
-    <img [src]="imageSrc" alt="owner-picture" class="owner-picture" />
-    <textarea [placeholder]="isReply ? 'Add a reply...' : 'Add a comment...'" name="comment" id="comment" cols="60" rows="3"></textarea>
-    <button>{{ isReply ? "Reply" : "Send" }}</button>
+<div [ngClass]="{ 'is-reply': isReply }" class="input-container">
+  <img [src]="imageSrc" alt="owner-picture" class="owner-picture"/>
+  <form [formGroup]="commentForm">
+    <textarea [placeholder]="isReply ? 'Add a reply...' : 'Add a comment...'" cols="60" formControlName="content" id="comment"
+              name="comment" rows="3"></textarea>
+  </form>
+  <button (click)="onAdd()">{{ isReply ? "Reply" : "Send" }}</button>
 </div>

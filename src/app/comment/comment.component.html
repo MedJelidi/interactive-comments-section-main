@@ -15,7 +15,13 @@
       <div *ngIf="isCurrentUser" class="you-container">you</div>
       <h4 class="pub-date">{{ createdAt || "" | dateAgo }}</h4>
     </div>
-    <p>
+    <div *ngIf="editMode" class="edit-mode-container">
+      <label for="edit-input"></label><textarea [value]="content" cols="60" id="edit-input" name="edit-input"
+                                                rows="3">
+    </textarea>
+      <button class="update-button">Update</button>
+    </div>
+    <p *ngIf="!editMode">
       {{ content }}
     </p>
 
@@ -28,7 +34,7 @@
         <img alt="delete" src="../../assets/images/icon-delete.svg"/>
         <h4>Delete</h4>
       </div>
-      <div *ngIf="isCurrentUser" class="button">
+      <div (click)="onEdit()" *ngIf="isCurrentUser" class="button">
         <img alt="edit" src="../../assets/images/icon-edit.svg"/>
         <h4>Edit</h4>
       </div>
@@ -38,6 +44,7 @@
 <div #addContainer></div>
 <div *ngIf="replies" class="replies-container">
   <div class="replies-pole"></div>
-  <app-comment (deleteEvent)="onDelete($event)" *ngFor="let reply of replies | async" [commenter]="reply.commenter" [content]="reply.content"
-               [createdAt]="reply.createdAt" [id]="reply.id" [score]="reply.score"></app-comment>
+  <app-comment (deleteEvent)="onDelete($event)" *ngFor="let reply of replies | async" [commenter]="reply.commenter"
+               [content]="reply.content"
+               [createdAt]="reply.created_at" [id]="reply.id" [score]="reply.score" style="width: 100%"></app-comment>
 </div>

@@ -17,4 +17,8 @@ export class CommentService {
   getRepliesOfComment(parentID: number): Observable<Comment[]> {
     return this.httpClient.get<Comment[]>(`${this.url}replies/${parentID}`)
   }
+
+  addComment(comment: Comment): Observable<Comment> {
+    return this.httpClient.post<Comment>(this.url + 'comment', comment)
+  }
 }

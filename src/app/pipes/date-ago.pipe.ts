@@ -15,12 +15,12 @@ export class DateAgoPipe implements PipeTransform {
     const dayDiff = Math.floor(dateAgo / 86410958.904106542468)
     const hourDiff = Math.floor(dateAgo / 3600456.6210044394247)
     const minDiff = Math.floor(dateAgo / 60000)
-    if (yearDiff > 0) return `${yearDiff} years ago`
-    if (monthDiff > 0) return `${monthDiff} months ago`
-    if (weekDiff > 0) return `${weekDiff} weeks ago`
-    if (dayDiff > 0) return `${dayDiff} days ago`
-    if (hourDiff > 0) return `${hourDiff} hours ago`
-    if (minDiff > 0) return `${minDiff} minutes ago`
+    if (yearDiff > 0) return `${yearDiff} year${yearDiff > 1 ? 's' : ''} ago`
+    if (monthDiff > 0) return `${monthDiff} month${monthDiff > 1 ? 's' : ''} ago`
+    if (weekDiff > 0) return `${weekDiff} week${weekDiff > 1 ? 's' : ''} ago`
+    if (dayDiff > 0) return `${dayDiff} day${dayDiff > 1 ? 's' : ''} ago`
+    if (hourDiff > 0) return `${hourDiff} hour${hourDiff > 1 ? 's' : ''} ago`
+    if (minDiff > 0) return `${minDiff} minute${minDiff > 1 ? 's' : ''} ago`
     else return 'now'
   }
 }
