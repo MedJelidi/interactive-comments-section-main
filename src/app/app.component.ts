@@ -16,12 +16,16 @@ export class AppComponent implements OnInit {
   modalContainer: ElementRef = new ElementRef(null)
 
   replyDeleted = new BehaviorSubject<boolean>(false)
+  loading = true;
 
   constructor(private commentService: CommentService) {
   }
 
   ngOnInit(): void {
-     this.commentService.getParentComments().subscribe(comments => this.comments = comments)
+    this.commentService.getParentComments().subscribe(comments => {
+      this.comments = comments
+      this.loading = false
+    })
   }
 
   onDelete($event: any): void {
@@ -44,18 +48,16 @@ export class AppComponent implements OnInit {
     const confirmButton = modalContainer?.querySelector('.confirm')
     const cancelButton = modalContainer?.querySelector('.cancel')
     const confirmDeletion = () => {
-      console.log('eeee')
       clickedButton = true
       confirmButton?.removeEventListener('click', confirmDeletion)
-      if (!$event.isReply) {
-        this.commentService.deleteComment($event.id).subscribe(() => {
-          this.comments.splice(this.comments.findIndex((c) => c.id === $event.id), 1)
-        })
-      } else {
-        this.commentService.deleteComment($event.id).subscribe(() => {
+      this.commentService.deleteComment($event.id).subscribe(() => {
+        // If it's a reply then delete it from the comment component.
+        if ($event.isReply) {
           this.replyDeleted.next(true)
-        })
-      }
+        } else {
+          this.comments.splice(this.comments.findIndex((c) => c.id === $event.id), 1)
+        }
+      })
     }
     const cancelDeletion = () => {
       clickedButton = true

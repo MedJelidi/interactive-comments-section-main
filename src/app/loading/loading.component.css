@@ -1,0 +1,15 @@
+.loading {
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border: 5px solid var(--light-grayish-blue);
+  border-top-color: var(--moderate-blue);
+  border-radius: 50%;
+  animation: loading 1s ease infinite;
+}
+
+@keyframes loading {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -1,12 +1,18 @@
-<app-comment (deleteEvent)="onDelete($event)"
-             *ngFor="let comment of comments; trackBy: trackById" [commenter]="comment.commenter"
-             [content]="comment.content"
-             [createdAt]="comment.createdAt"
-             [id]="comment.id"
-             [score]="comment.score"
-             [replyDeleted]="replyDeleted"
-             class="container">
-</app-comment>
+<div *ngIf="loading" class="loading-container">
+  <app-loading></app-loading>
+</div>
+<ng-container *ngIf="!loading">
+  <app-comment *ngFor="let comment of comments; trackBy: trackById"
+               [commenter]="comment.commenter"
+               [content]="comment.content"
+               [createdAt]="comment.createdAt"
+               [id]="comment.id"
+               [replyDeleted]="replyDeleted"
+               [score]="comment.score"
+               (deleteEvent)="onDelete($event)"
+               class="container">
+  </app-comment>
+</ng-container>
 <app-add-comment (addedComment)="onAddComment($event)" [isReply]="false"></app-add-comment>
 <div #modalContainer class="modal">
   <div class="modal-container"><h3>Delete comment</h3>

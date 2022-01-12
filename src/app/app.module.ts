@@ -7,13 +7,15 @@ import { CommentComponent } from './comment/comment.component';
 import { AddCommentComponent } from './add-comment/add-comment.component';
 import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CommentComponent,
     AddCommentComponent,
-    DateAgoPipe
+    DateAgoPipe,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

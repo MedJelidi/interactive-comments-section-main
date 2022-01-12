@@ -16,17 +16,23 @@
       <h4 class="pub-date">{{ createdAt || "" | dateAgo }}</h4>
     </div>
     <div *ngIf="editMode" class="edit-mode-container">
-      <label for="edit-input"></label><textarea [value]="content" cols="60" id="edit-input" name="edit-input"
-                                                rows="3">
-    </textarea>
-      <button class="update-button">Update</button>
+      <form [formGroup]="editForm" (ngSubmit)="onUpdate()">
+        <label for="edit-input"></label>
+        <textarea [value]="content"
+                  cols="60"
+                  rows="3"
+                  id="edit-input"
+                  name="edit-input"
+                  formControlName="content">
+      </textarea>
+        <button class="update-button">Update</button>
+      </form>
     </div>
     <p *ngIf="!editMode">
       {{ content }}
     </p>
-
     <div class="buttons-container">
-      <div (click)="onReply()" *ngIf="!isCurrentUser" class="button">
+      <div (click)="onClickReply()" *ngIf="!isCurrentUser" class="button">
         <img alt="reply" src="../../assets/images/icon-reply.svg"/>
         <h4>Reply</h4>
       </div>
@@ -34,7 +40,7 @@
         <img alt="delete" src="../../assets/images/icon-delete.svg"/>
         <h4>Delete</h4>
       </div>
-      <div (click)="onEdit()" *ngIf="isCurrentUser" class="button">
+      <div (click)="onClickEdit()" *ngIf="isCurrentUser" class="button">
         <img alt="edit" src="../../assets/images/icon-edit.svg"/>
         <h4>Edit</h4>
       </div>
@@ -44,7 +50,12 @@
 <div #addContainer></div>
 <div *ngIf="replies" class="replies-container">
   <div class="replies-pole"></div>
-  <app-comment (deleteEvent)="onDeleteReply($event)" *ngFor="let reply of replies" [commenter]="reply.commenter"
+  <app-comment *ngFor="let reply of replies"
+               [commenter]="reply.commenter"
                [content]="reply.content"
-               [createdAt]="reply.createdAt" [id]="reply.id" [score]="reply.score" style="width: 100%"></app-comment>
+               [createdAt]="reply.createdAt"
+               [id]="reply.id"
+               [score]="reply.score"
+               (deleteEvent)="onDeleteReply($event)"
+               style="width: 100%"></app-comment>
 </div>

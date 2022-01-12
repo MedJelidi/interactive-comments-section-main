@@ -233,4 +233,8 @@ textarea {
     padding: 3px 5px;
     font-size: 12px;
   }
+
+  form {
+    height: 120px;
+  }
 }

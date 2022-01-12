@@ -1,8 +1,9 @@
 <div [ngClass]="{ 'is-reply': isReply }" class="input-container">
   <img [src]="imageSrc" alt="owner-picture" class="owner-picture"/>
   <form [formGroup]="commentForm">
-    <textarea [placeholder]="isReply ? 'Add a reply...' : 'Add a comment...'" cols="60" formControlName="content" id="comment"
+    <textarea [placeholder]="isReply ? 'Add a reply...' : 'Add a comment...'" cols="60" formControlName="content"
+              id="comment"
               name="comment" rows="3"></textarea>
   </form>
-  <button (click)="onAdd()">{{ isReply ? "Reply" : "Send" }}</button>
+  <button (click)="onAdd()" [disabled]="commentForm.invalid">{{ isReply ? "Reply" : "Send" }}</button>
 </div>

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core'
-import { UserService } from '../services/user.service'
+import {UserService} from '../services/user.service'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CommentService} from "../services/comment.service";
 import {Comment} from "../models/comment.model"
@@ -15,7 +15,10 @@ export class AddCommentComponent implements OnInit {
   @Input() parentID: number = -1
   @Output() addedComment: EventEmitter<Comment> = new EventEmitter()
   commentForm: FormGroup
-  constructor(private userService: UserService, private formBuilder: FormBuilder, private commentService: CommentService) {
+
+  constructor(private userService: UserService,
+              private formBuilder: FormBuilder,
+              private commentService: CommentService) {
     this.commentForm = this.formBuilder.group({
       content: ['', Validators.required]
     })
@@ -29,9 +32,18 @@ export class AddCommentComponent implements OnInit {
 
   onAdd(): void {
     const content: string = this.commentForm?.value.content
-    const comment: Comment = {id: -1, content: content, commenter: this.userService.currentUser, parentID: this.parentID, score: 0, createdAt: ''}
+    const comment: Comment = {
+      id: -1,
+      content: content,
+      commenter: this.userService.currentUser,
+      parentID: this.parentID,
+      score: 0,
+      createdAt: ''
+    }
     this.commentService.addComment(comment).subscribe(newComment => {
+      // Emit the new comment to add it to the DOM.
       this.addedComment.emit(newComment)
+      this.commentForm.setValue({'content': null})
     }, err => console.error(err))
   }
 }
