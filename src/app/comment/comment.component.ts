@@ -108,6 +108,7 @@ export class CommentComponent implements OnInit {
     this.componentRef!.instance.parentID = this.id
     this.componentRef!.instance.addedComment.subscribe((reply: Comment) => {
       this.replies.push(reply)
+      this.onClickReply()
     })
   }
 

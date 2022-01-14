@@ -207,9 +207,6 @@ textarea {
 }
 
 @media screen and (max-width: 635px) {
-  /*.replies-pole {*/
-  /*  left: -3.7%;*/
-  /*}*/
 
   .votes-container {
     flex-direction: row;
