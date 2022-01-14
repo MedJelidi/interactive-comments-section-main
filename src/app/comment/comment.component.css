@@ -146,7 +146,7 @@ h4 {
   position: absolute;
   height: 100%;
   width: 3px;
-  left: -2.7%;
+  left: 0;
   background-color: var(--light-gray);
 }
 
@@ -207,9 +207,9 @@ textarea {
 }
 
 @media screen and (max-width: 635px) {
-  .replies-pole {
-    left: -3.7%;
-  }
+  /*.replies-pole {*/
+  /*  left: -3.7%;*/
+  /*}*/
 
   .votes-container {
     flex-direction: row;
