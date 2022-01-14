@@ -38,7 +38,7 @@ export class AddCommentComponent implements OnInit {
       commenter: this.userService.currentUser,
       parentID: this.parentID,
       score: 0,
-      createdAt: new Date().toLocaleDateString()
+      createdAt: new Date().toString()
     }
     this.commentService.addComment(comment).subscribe(newComment => {
       // Emit the new comment to add it to the DOM.
