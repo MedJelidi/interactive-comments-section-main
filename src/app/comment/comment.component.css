@@ -162,6 +162,7 @@ textarea {
   font-family: var(--main-font-family);
   color: var(--grayish-blue);
   width: 100%;
+  resize: none;
 }
 
 .edit-mode-container {
