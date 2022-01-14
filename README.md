@@ -1,27 +1,70 @@
-# InteractiveCommentsSectionMain
+# interactive-comments-section-main
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
+## Table of Contents
 
-## Development server
+- [About](#about)
+- [Getting Started](#getting_started)
+- [Usage](#usage)
+- [Demo](#demo)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## About <a name = "about"></a>
 
-## Code scaffolding
+This project is about building a custom interactive comments section similar to the ones used in social media applications. Built to complete a [challenge](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9) on [Front Mentor](https://www.frontendmentor.io/).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This is a working front-end solution. To add the back-end solution, head over to [this](https://github.com/MedJelidi/interactive-comments-section-main-back) repository.
 
-## Build
+## Getting Started <a name = "getting_started"></a>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## Running unit tests
+### Prerequisites
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+[Node.js](https://nodejs.org)
 
-## Running end-to-end tests
+[NPM](https://nodejs.org)
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+[Angular CLI](https://angular.io/cli)
 
-## Further help
+### Installing
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+[Node.js](https://nodejs.org/en/download/) (version >= v12.22.8)
+
+[NPM](https://nodejs.org/en/download/) (version >= 6.14.15)
+
+Angular CLI
+
+```
+npm install -g @angular/cli
+```
+
+## Usage <a name = "usage"></a>
+
+Enter working directory and run
+```
+ng serve -o
+```
+## Demo <a name = "demo"></a>
+
+Desktop
+
+![desktop view](src/assets/screenshots/desktop.png)
+
+Mobile
+
+![desktop view](src/assets/screenshots/mobile.png)
+
+Delete (Desktop)
+
+![desktop delete view](src/assets/screenshots/desktop-delete.png)
+
+Delete (Mobile)
+
+![mobile delete view](src/assets/screenshots/mobile-delete.png)
+
+Update (Mobile)
+
+![mobile delete view](src/assets/screenshots/mobile-update.png)
+
+Reply (Mobile)
+
+![mobile reply view](src/assets/screenshots/mobile-reply.png)

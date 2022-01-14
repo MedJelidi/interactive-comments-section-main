@@ -153,7 +153,6 @@ export class CommentService {
   }
 
   deleteFromLocalComments(id: number): void {
-    console.log(id)
     const localComments = this.getCommentsFromLocalStorage()
     const newComments = localComments.filter(c => c.id !== id)
     localStorage.setItem('parent_comments', JSON.stringify(newComments))
