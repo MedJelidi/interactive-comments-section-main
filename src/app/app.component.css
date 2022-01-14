@@ -29,6 +29,7 @@
   align-items: flex-start;
   border-radius: 10px;
   background-color: var(--white);
+  z-index: 1000;
 }
 
 h3 {

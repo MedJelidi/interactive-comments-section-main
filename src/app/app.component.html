@@ -9,7 +9,8 @@
                [id]="comment.id"
                [replyDeleted]="replyDeleted"
                [score]="comment.score"
-               (deleteEvent)="onDelete($event)"
+               [modalContainer]="modalContainer"
+               [isReply]="false"
                class="container">
   </app-comment>
 </ng-container>

@@ -28,8 +28,9 @@ export class CommentComponent implements OnInit {
   @Input() createdAt: string | undefined
   @Input() score: number | undefined
   @Input() commenter: Commenter | undefined
+  @Input() modalContainer: any | undefined
   @Input() replyDeleted = new BehaviorSubject<boolean>(false)
-
+  @Input() isReply: boolean = false
   @Output() deleteEvent: EventEmitter<any> = new EventEmitter()
 
   imageSrc: string = ''
@@ -42,7 +43,6 @@ export class CommentComponent implements OnInit {
   @ViewChild('addContainer', {read: ViewContainerRef}) target:
     | ViewContainerRef
     | undefined
-  @ViewChild('modalContainer') modalContainer: Element | undefined
   private componentRef: ComponentRef<any> | undefined
 
   constructor(
@@ -54,7 +54,6 @@ export class CommentComponent implements OnInit {
     this.editForm = this.formBuilder.group({
       content: [this.content, Validators.required]
     })
-    console.log(this.editForm.value)
   }
 
   ngOnInit(): void {
@@ -64,9 +63,22 @@ export class CommentComponent implements OnInit {
     this.imageSrc = `../../assets${this.commenter?.image.png.slice(1)}`
     this.commentService
       .getRepliesOfComment(this.id ?? 0)
-      .subscribe(replies => this.replies = replies)
+      .subscribe(
+        replies => this.replies = replies,
+        () => {
+          const localComments = this.commentService.getCommentsFromLocalStorage()
+          this.replies = localComments.filter(c => c.parentID === this.id && c.parentID !== -1)
+        }
+      )
     this.isCurrentUser =
       this.userService.currentUser.username === this.commenter?.username
+    this.commentService.deleted.subscribe(info => {
+        if (info.isReply === true) {
+          this.replies.splice(this.replies.findIndex((c) => c.id === info.id), 1)
+          this.commentService.deleteFromLocalComments(info.id)
+        }
+      }
+    )
   }
 
   onClickReply(): void {
@@ -78,17 +90,9 @@ export class CommentComponent implements OnInit {
     this.addComponentExists = !this.addComponentExists
   }
 
-  onDeleteComment(id: number): void {
-    this.deleteEvent.emit({id, isReply: false})
-  }
-
-  onDeleteReply($event: any): void {
-    // Emit deletion info to the delete modal; if it's a reply then delete it from this component.
-    this.deleteEvent.emit({id: $event.id, isReply: true})
-    // When deletion is confirmed from the modal.
-    this.replyDeleted.subscribe((deleted) => {
-      if (deleted) this.replies.splice(this.replies.findIndex((r) => r.id === $event.id), 1)
-    })
+  onDeleteComment(id: number, isReply: boolean): void {
+    // this.deleteEvent.emit({id, isReply: false})
+    this.commentService.onDelete(this.modalContainer, id, isReply)
   }
 
   onClickEdit(): void {
@@ -103,16 +107,21 @@ export class CommentComponent implements OnInit {
     this.componentRef!.instance.isReply = true
     this.componentRef!.instance.parentID = this.id
     this.componentRef!.instance.addedComment.subscribe((reply: Comment) => {
-      console.log(reply)
       this.replies.push(reply)
     })
   }
 
   onUpdate(): void {
     const newContent = this.editForm.value.content
-    this.commentService.updateComment(this.id, newContent).subscribe(res => {
-      this.content = res.content
-      this.editMode = false
-    })
+    this.commentService.updateComment(this.id, newContent).subscribe(
+      res => {
+        this.content = res.content
+        this.editMode = false
+      },
+      () => {
+        this.commentService.updateLocalComment(this.id, newContent)
+        this.content = newContent
+        this.editMode = false
+      })
   }
 }

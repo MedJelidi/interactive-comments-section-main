@@ -38,12 +38,20 @@ export class AddCommentComponent implements OnInit {
       commenter: this.userService.currentUser,
       parentID: this.parentID,
       score: 0,
-      createdAt: ''
+      createdAt: new Date().toLocaleDateString()
     }
     this.commentService.addComment(comment).subscribe(newComment => {
       // Emit the new comment to add it to the DOM.
       this.addedComment.emit(newComment)
       this.commentForm.setValue({'content': null})
-    }, err => console.error(err))
+    }, err => {
+      console.error(err)
+      let s = 0
+      this.commentService.getCommentsFromLocalStorage().forEach(c => s += c.id)
+      comment.id = s
+      this.commentService.addToLocalComments(comment)
+      this.addedComment.emit(comment)
+      this.commentForm.setValue({'content': null})
+    })
   }
 }

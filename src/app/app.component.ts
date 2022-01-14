@@ -22,49 +22,22 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commentService.getParentComments().subscribe(comments => {
-      this.comments = comments
-      this.loading = false
-    })
-  }
-
-  onDelete($event: any): void {
-    const modal = this.modalContainer.nativeElement
-    modal.classList.add('shown')
-    // don't exit it if clicked on container, but exit if clicked outside
-    let inCont = false
-    let clickedButton = false
-    const modalContainer = document.querySelector('.modal-container')
-    modal.addEventListener('click', () => {
-      if (!inCont) modal.classList.remove('shown')
-      inCont = false
-    })
-    modalContainer?.addEventListener('click', () => {
-      if (!clickedButton) {
-        inCont = true
-        modal.classList.add('shown')
-      }
-    })
-    const confirmButton = modalContainer?.querySelector('.confirm')
-    const cancelButton = modalContainer?.querySelector('.cancel')
-    const confirmDeletion = () => {
-      clickedButton = true
-      confirmButton?.removeEventListener('click', confirmDeletion)
-      this.commentService.deleteComment($event.id).subscribe(() => {
-        // If it's a reply then delete it from the comment component.
-        if ($event.isReply) {
-          this.replyDeleted.next(true)
-        } else {
-          this.comments.splice(this.comments.findIndex((c) => c.id === $event.id), 1)
-        }
+    this.commentService.getParentComments().subscribe(
+      comments => {
+        this.comments = comments
+        this.loading = false
+      },
+      () => {
+        const localComments = this.commentService.getCommentsFromLocalStorage()
+        this.comments = localComments.filter(c => c.parentID === -1)
+        this.loading = false
       })
-    }
-    const cancelDeletion = () => {
-      clickedButton = true
-      cancelButton?.removeEventListener('click', cancelDeletion)
-    }
-    confirmButton?.addEventListener('click', confirmDeletion)
-    cancelButton?.addEventListener('click', cancelDeletion)
+    this.commentService.deleted.subscribe(info => {
+      if (info.isReply === false)
+        this.comments.splice(this.comments.findIndex((c) => c.id === info.id), 1)
+        this.commentService.deleteFromLocalComments(info.id)
+      }
+    )
   }
 
   onAddComment(comment: Comment): void {
@@ -74,4 +47,5 @@ export class AppComponent implements OnInit {
   trackById(index: number, comment: Comment): number {
     return comment.id;
   }
+
 }
