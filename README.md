@@ -9,7 +9,7 @@
 
 ## About <a name = "about"></a>
 
-This project is about building a custom interactive comments section similar to the ones used in social media applications. Built to complete a [challenge](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9) on [Front Mentor](https://www.frontendmentor.io/).
+This project is about building a custom interactive comments section similar to the ones used in social media applications. Built to complete a [challenge](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9) on [Frontend Mentor](https://www.frontendmentor.io/).
 
 This is a working front-end solution. To add the back-end solution, head over to [this](https://github.com/MedJelidi/interactive-comments-section-main-back) repository.
 
@@ -45,17 +45,9 @@ ng serve -o
 ```
 ## Demo <a name = "demo"></a>
 
-Desktop
-
-![desktop view](src/assets/screenshots/desktop.png)
-
 Mobile
 
 ![desktop view](src/assets/screenshots/mobile.png)
-
-Delete (Desktop)
-
-![desktop delete view](src/assets/screenshots/desktop-delete.png)
 
 Delete (Mobile)
 
@@ -68,3 +60,11 @@ Update (Mobile)
 Reply (Mobile)
 
 ![mobile reply view](src/assets/screenshots/mobile-reply.png)
+
+Desktop
+
+![desktop view](src/assets/screenshots/desktop.png)
+
+Delete (Desktop)
+
+![desktop delete view](src/assets/screenshots/desktop-delete.png)
