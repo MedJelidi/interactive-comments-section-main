@@ -234,4 +234,8 @@ textarea {
   form {
     height: 120px;
   }
+
+  #delete-btn {
+    margin-right: 10px;
+  }
 }
