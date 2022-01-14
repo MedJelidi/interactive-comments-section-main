@@ -6,6 +6,7 @@
 - [Getting Started](#getting_started)
 - [Usage](#usage)
 - [Demo](#demo)
+- [Deployment](#deployment)
 
 ## About <a name = "about"></a>
 
@@ -68,3 +69,7 @@ Desktop
 Delete (Desktop)
 
 ![desktop delete view](src/assets/screenshots/desktop-delete.png)
+
+## Deployment <a name = "deployment"></a>
+
+https://interactive-comments-section-main.pages.dev/
