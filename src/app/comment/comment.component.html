@@ -1,5 +1,5 @@
 <div class="comment-container">
-  <div class="votes-container">
+  <div class="votes-container" *ngIf="!editMode">
     <div class="vote-elem sign" [ngClass]="{'highlight': interacted && upvoted}" (click)="upVote(true)">
       <img alt="icon-plus" src="../../assets/images/icon-plus.svg"/>
     </div>
