@@ -26,7 +26,7 @@ export class CommentComponent implements OnInit {
   @Input() id: number = -1
   @Input() content: string | undefined
   @Input() createdAt: string | undefined
-  @Input() score: number | undefined
+  @Input() score: number = 0
   @Input() commenter: Commenter | undefined
   @Input() modalContainer: any | undefined
   @Input() replyDeleted = new BehaviorSubject<boolean>(false)
@@ -135,7 +135,7 @@ export class CommentComponent implements OnInit {
         this.editMode = false
       },
       () => {
-        this.commentService.updateLocalComment(this.id, newContent, '')
+        this.commentService.updateLocalComment(this.id, newContent, null)
         this.content = newContent
         this.editMode = false
       })
@@ -146,15 +146,25 @@ export class CommentComponent implements OnInit {
     const localDownvotedComments = this.userService.getLocalDownvotedComments()
     if (up) {
       if (!localUpvotedComments.includes(this.id)) {
-        if (this.score) this.score++
-        this.commentService.updateLocalComment(this.id, '', 'up')
+        if (localDownvotedComments.includes(this.id)) {
+          this.score+=2
+          this.commentService.updateLocalComment(this.id, '', {direction: 'up', num: 2})
+        } else {
+          this.score++
+          this.commentService.updateLocalComment(this.id, '', {direction: 'up', num: 1})
+        }
         this.userService.addToLocalUpvotedComments(this.id)
         this.userService.removeFromLocalDownvotedComments(this.id)
       }
     } else {
-      if (localUpvotedComments.includes(this.id)) {
-        if (this.score) this.score--
-        this.commentService.updateLocalComment(this.id, '', 'down')
+      if (!localDownvotedComments.includes(this.id)) {
+        if (localUpvotedComments.includes(this.id)) {
+          this.score-=2
+          this.commentService.updateLocalComment(this.id, '', {direction: 'down', num: 2})
+        } else {
+          this.score--
+          this.commentService.updateLocalComment(this.id, '', {direction: 'down', num: 1})
+        }
         this.userService.removeFromLocalUpvotedComments(this.id)
         this.userService.addToLocalDownvotedComments(this.id)
       }
