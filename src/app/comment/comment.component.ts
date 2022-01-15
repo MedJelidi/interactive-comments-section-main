@@ -39,6 +39,8 @@ export class CommentComponent implements OnInit {
   editMode: boolean = false
   addComponentExists: boolean = false
   editForm: FormGroup
+  interacted: boolean = false
+  upvoted: boolean = false
 
   @ViewChild('addContainer', {read: ViewContainerRef}) target:
     | ViewContainerRef
@@ -79,6 +81,19 @@ export class CommentComponent implements OnInit {
         }
       }
     )
+    this.voteState()
+  }
+
+  voteState(): void {
+    const localUpvotes = this.userService.getLocalUpvotedComments()
+    const localDownvotes = this.userService.getLocalDownvotedComments()
+
+    if (localUpvotes.includes(this.id) || localDownvotes.includes(this.id)) {
+      this.interacted = true
+      this.upvoted = localUpvotes.includes(this.id)
+    } else {
+      this.interacted = false
+    }
   }
 
   onClickReply(): void {
@@ -120,9 +135,30 @@ export class CommentComponent implements OnInit {
         this.editMode = false
       },
       () => {
-        this.commentService.updateLocalComment(this.id, newContent)
+        this.commentService.updateLocalComment(this.id, newContent, '')
         this.content = newContent
         this.editMode = false
       })
+  }
+
+  upVote(up: boolean): void {
+    const localUpvotedComments = this.userService.getLocalUpvotedComments()
+    const localDownvotedComments = this.userService.getLocalDownvotedComments()
+    if (up) {
+      if (!localUpvotedComments.includes(this.id)) {
+        if (this.score) this.score++
+        this.commentService.updateLocalComment(this.id, '', 'up')
+        this.userService.addToLocalUpvotedComments(this.id)
+        this.userService.removeFromLocalDownvotedComments(this.id)
+      }
+    } else {
+      if (localUpvotedComments.includes(this.id)) {
+        if (this.score) this.score--
+        this.commentService.updateLocalComment(this.id, '', 'down')
+        this.userService.removeFromLocalUpvotedComments(this.id)
+        this.userService.addToLocalDownvotedComments(this.id)
+      }
+    }
+    this.voteState()
   }
 }

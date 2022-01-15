@@ -4,4 +4,5 @@ export interface Commenter {
   id: number
   username: string
   image: Image
+  upvoted_comments: number[]
 }

@@ -145,10 +145,11 @@ export class CommentService {
     localStorage.setItem('parent_comments', JSON.stringify(localComments))
   }
 
-  updateLocalComment(id: number, newContent: string): void {
+  updateLocalComment(id: number, newContent: string, upvote: string): void {
     const localComments = this.getCommentsFromLocalStorage()
     const commentToUpdate = localComments.findIndex(c => c.id === id)
-    localComments[commentToUpdate].content = newContent
+    if (newContent !== '') localComments[commentToUpdate].content = newContent
+    if (upvote !== '') localComments[commentToUpdate].score += (upvote === 'up' ? 1 : -1)
     localStorage.setItem('parent_comments', JSON.stringify(localComments))
   }
 

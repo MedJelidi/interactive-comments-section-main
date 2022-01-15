@@ -1,10 +1,10 @@
 <div class="comment-container">
   <div class="votes-container">
-    <div class="vote-elem sign">
+    <div class="vote-elem sign" [ngClass]="{'highlight': interacted && upvoted}" (click)="upVote(true)">
       <img alt="icon-plus" src="../../assets/images/icon-plus.svg"/>
     </div>
     <div class="vote-elem">{{ score }}</div>
-    <div class="vote-elem sign">
+    <div class="vote-elem sign" [ngClass]="{'highlight': interacted && !upvoted}" (click)="upVote(false)">
       <img alt="icon-minus" src="../../assets/images/icon-minus.svg"/>
     </div>
   </div>
